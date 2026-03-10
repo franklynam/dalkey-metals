@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Large source GeoTIFFs — tracked via Git LFS or stored externally
+*.tif
+*.tiff
+
+# Intermediate / generated assets (regenerate with scripts/)
+metals_dtm_16bit.png
+public/textures/dalkey-area.txt

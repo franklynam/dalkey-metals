@@ -1,0 +1,21 @@
+{
+  "name": "metals-terrain",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "three": "^0.170.0",
+    "@react-three/fiber": "^9.5.0",
+    "@react-three/drei": "^10.7.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.170.0"
+  }
+}
