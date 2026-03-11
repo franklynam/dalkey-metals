@@ -3,6 +3,8 @@
 import { Sky, OrbitControls } from '@react-three/drei';
 import { DISPLACEMENT_SCALE, DISPLACEMENT_BIAS } from '../config';
 import Terrain from './Terrain';
+import Island from './Island';
+import Sea from './Sea';
 import MetalsPath from './MetalsPath';
 
 // Late-afternoon sun, roughly WSW — casts long shadows across the quarry face
@@ -49,13 +51,15 @@ export default function Scene() {
       />
 
       <Terrain
-        heightmap="/textures/dalkey-area.png"
+        heightmap="/textures/dl-area-plus-piers.png"
         displacementScale={DISPLACEMENT_SCALE}
         displacementBias={DISPLACEMENT_BIAS}
         segments={1024}
         size={[200, 200]}
       />
 
+      <Island />
+      <Sea />
       <MetalsPath />
     </>
   );
