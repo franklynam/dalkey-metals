@@ -1,16 +1,18 @@
-'use client';
+"use client";
 
-import { Sky, OrbitControls } from '@react-three/drei';
-import { DISPLACEMENT_SCALE, DISPLACEMENT_BIAS } from '../config';
-import Terrain from './Terrain';
-import Island from './Island';
-import Sea from './Sea';
-import MetalsPath from './MetalsPath';
+import { Sky } from "@react-three/drei";
+import { DISPLACEMENT_SCALE, DISPLACEMENT_BIAS } from "../config";
+import NavigationControls from "./NavigationControls";
+import Terrain from "./Terrain";
+import Island from "./Island";
+import Sea from "./Sea";
+import MetalsPath from "./MetalsPath";
+import HistoricMap from "./HistoricMap";
 
 // Late-afternoon sun, roughly WSW — casts long shadows across the quarry face
 const SUN_POSITION = [80, 60, -60];
 
-export default function Scene() {
+export default function Scene({ showHistoricMap = false }) {
   return (
     <>
       <Sky
@@ -41,7 +43,7 @@ export default function Scene() {
         maxPolarAngle prevents the camera from going below the ground plane.
         PI / 2.1 ≈ 85.7° from vertical — leaves a small margin above the horizon.
       */}
-      <OrbitControls
+      <NavigationControls
         maxPolarAngle={Math.PI / 2.1}
         enableDamping
         dampingFactor={0.05}
@@ -50,15 +52,21 @@ export default function Scene() {
         target={[0, 2, -45]}
       />
 
-      <Terrain
-        heightmap="/textures/dl-area-plus-piers.png"
-        displacementScale={DISPLACEMENT_SCALE}
-        displacementBias={DISPLACEMENT_BIAS}
-        segments={1024}
-        size={[200, 200]}
-      />
+      {showHistoricMap ? (
+        <HistoricMap />
+      ) : (
+        <>
+          <Terrain
+            heightmap="/textures/dl-area-plus-piers.png"
+            displacementScale={DISPLACEMENT_SCALE}
+            displacementBias={DISPLACEMENT_BIAS}
+            segments={1024}
+            size={[200, 200]}
+          />
+          <Island />
+        </>
+      )}
 
-      <Island />
       <Sea />
       <MetalsPath />
     </>
