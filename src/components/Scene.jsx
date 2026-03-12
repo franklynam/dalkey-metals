@@ -12,7 +12,7 @@ import HistoricMap from "./HistoricMap";
 // Late-afternoon sun, roughly WSW — casts long shadows across the quarry face
 const SUN_POSITION = [80, 60, -60];
 
-export default function Scene({ showHistoricMap = false }) {
+export default function Scene({ showHistoricMap = false, initialTarget }) {
   return (
     <>
       <Sky
@@ -49,7 +49,7 @@ export default function Scene({ showHistoricMap = false }) {
         dampingFactor={0.05}
         minDistance={0.5}
         maxDistance={450}
-        target={[0, 2, -45]}
+        target={initialTarget}
         panSpeed={3}
       />
 
