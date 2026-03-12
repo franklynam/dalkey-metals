@@ -127,6 +127,60 @@ Scene Y (derived from GeoJSON elevation) matches the displaced terrain surface w
 
 ---
 
+## Converting a GeoJSON path to scene coordinates
+
+Use `scripts/geojson_to_scene_path.py` to project a GeoJSON LineString into the R3F scene coordinate system and write it as a JavaScript ES module.
+
+### Usage
+
+```bash
+# ITM input (EPSG:2157), use GeoJSON Z values — most common for this project
+python scripts/geojson_to_scene_path.py metals-path.json \
+    --tif /path/to/dl-area-plus-piers.tif \
+    --crs 2157 --use-geojson-z \
+    --out src/data/metals-path.js \
+    --const-name METALS_PATH
+
+# WGS84 input (EPSG:4326), sample elevation from TIFF
+python scripts/geojson_to_scene_path.py path.json \
+    --tif /path/to/terrain.tif
+
+# Full options
+python scripts/geojson_to_scene_path.py path.json --tif terrain.tif \
+    --plane-size 200 --nodata-threshold 500 --y-offset 0.1 \
+    --out src/data/path.js
+```
+
+### Options
+
+| Flag | Default | Description |
+|---|---|---|
+| `--tif` | *(required)* | GeoTIFF used for tile metadata (and elevation sampling unless `--use-geojson-z`) |
+| `--crs` | `4326` | Input CRS: `4326` = WGS84 lon/lat, `2157` = ITM Easting/Northing |
+| `--use-geojson-z` | off | Use Z values from the GeoJSON instead of sampling elevation from the TIFF |
+| `--plane-size` | `200` | Scene plane size in units |
+| `--y-offset` | `0.1` | Scene units to lift the line above the terrain surface (prevents z-fighting) |
+| `--nodata-threshold` | `1000` | Pixels with `|value| > threshold` treated as nodata |
+| `--const-name` | *(derived from filename)* | JS export name, e.g. `METALS_PATH` |
+| `--out` | `src/data/<name>.js` | Output JS file path |
+
+### Coordinate pipeline
+
+```
+Input CRS:
+  EPSG:4326 → manual Transverse Mercator → ITM (E, N)
+  EPSG:2157 → used directly
+
+ITM (E, N)
+  → pixel offset (px_x, px_y)   from GeoTIFF tile origin
+  → scene X, Z                  (px / tile_px − 0.5) × plane_size
+  → scene Y                     elev_m / metres_per_unit + y_offset
+```
+
+`metres_per_unit` is derived automatically from the GeoTIFF tile width and `--plane-size`.
+
+---
+
 ## Converting new GeoTIFF terrain layers
 
 Use `scripts/geotiff_to_heightmap.py` to convert any float GeoTIFF DTM to a 16-bit grayscale PNG.
