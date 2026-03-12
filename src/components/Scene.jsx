@@ -55,17 +55,28 @@ export default function Scene({ showHistoricMap = false }) {
       {showHistoricMap ? (
         <HistoricMap />
       ) : (
-        <>
-          <Terrain
-            heightmap="/textures/dl-area-plus-piers.png"
-            displacementScale={DISPLACEMENT_SCALE}
-            displacementBias={DISPLACEMENT_BIAS}
-            segments={1024}
-            size={[200, 200]}
-          />
-          <Island />
-        </>
+        <Terrain
+          heightmap="/textures/dl-area-plus-piers.png"
+          displacementScale={DISPLACEMENT_SCALE}
+          displacementBias={DISPLACEMENT_BIAS}
+          segments={1024}
+          size={[200, 200]}
+        />
       )}
+
+      {/*
+        Island is always rendered — it has its own heightmap (dalkey-island.png)
+        that the main terrain plane does not include. When the historic map is
+        active, the 1837 texture is used instead of the satellite texture.
+        Both textures cover the same 4 km ITM area so the UV crop is identical.
+      */}
+      <Island
+        colorMap={
+          showHistoricMap
+            ? '/textures/1837-map-texture.jpg'
+            : '/textures/dl-area-plus-piers-texture.jpg'
+        }
+      />
 
       <Sea />
       <MetalsPath />
