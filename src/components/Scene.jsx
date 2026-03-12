@@ -47,9 +47,10 @@ export default function Scene({ showHistoricMap = false }) {
         maxPolarAngle={Math.PI / 2.1}
         enableDamping
         dampingFactor={0.05}
-        minDistance={15}
+        minDistance={0.5}
         maxDistance={450}
         target={[0, 2, -45]}
+        panSpeed={3}
       />
 
       {showHistoricMap ? (
@@ -73,8 +74,8 @@ export default function Scene({ showHistoricMap = false }) {
       <Island
         colorMap={
           showHistoricMap
-            ? '/textures/1837-map-texture.jpg'
-            : '/textures/dl-area-plus-piers-texture.jpg'
+            ? "/textures/1837-map-texture.jpg"
+            : "/textures/dl-area-plus-piers-texture.jpg"
         }
       />
 
