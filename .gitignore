@@ -28,3 +28,5 @@ npm-debug.log*
 # Intermediate / generated assets (regenerate with scripts/)
 metals_dtm_16bit.png
 public/textures/dalkey-area.txt
+
+.claude/
