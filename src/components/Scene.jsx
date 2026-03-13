@@ -13,7 +13,8 @@ import POIMarkers from "./POIMarkers";
 // Late-afternoon sun, roughly WSW — casts long shadows across the quarry face
 const SUN_POSITION = [80, 60, -60];
 
-export default function Scene({ showHistoricMap = false, initialTarget, selectedPOI, onSelectPOI }) {
+export default function Scene({ activeLayer = 'satellite', initialTarget, selectedPOI, onSelectPOI }) {
+  const showHistoricMap = activeLayer === '1837-oss';
   return (
     <>
       <Sky
