@@ -11,7 +11,7 @@ const SECTIONS = [
   },
   {
     heading: "How was this made?",
-    body: `The terrain model is built using LiDAR (Light Detection and Ranging) data captured by aerial survey. The raw elevation data was processed into a 16-bit grayscale heightmap and rendered in the browser using a WebGL displacement mesh — a technique that produces smooth, GPU-accelerated terrain without transferring any 3D geometry from the server.\n\nThe route path was digitised from historical sources and georeferenced against Irish Transverse Mercator (ITM / EPSG:2157) coordinates. The 1837 Ordnance Survey of Ireland map layer was georectified to the same coordinate system and drapes over the terrain surface.\n\nThe stack: Next.js 15 · React 19 · Three.js · React Three Fiber · React Three Drei.`,
+    body: `The terrain model is built using LiDAR (Light Detection and Ranging) data captured by aerial survey. The raw elevation data was processed into a 16-bit grayscale heightmap and rendered in the browser using a WebGL displacement mesh — a technique that produces smooth, GPU-accelerated terrain without transferring any 3D geometry from the server.\n\nThe route path was digitised from historical sources and georeferenced against Irish Transverse Mercator (ITM / EPSG:2157) coordinates. The 1837 Ordnance Survey of Ireland map layer was georectified to the same coordinate system and drapes over the terrain surface.\n\nThe majority of this project was created by vibe coding with Claude Code and researching using Gemini. While I have built many React apps in the past, it's been a while since I've used GIS tools like QGIS or ArcGIS and so I was interested in finding out how LLMs might be help when in using ulti-tool pipelines such as this. I was amazed at how well Gemini performed as a guide to using QGIS and to sourcing data such as the LiDAR terrain model. I remember from my days in academia how mastering these sorts of workflows could take days or frustrating trial and error.\n\nThe tech stack: Next.js 15 · React 19 · Three.js · React Three Fiber · React Three Drei.`,
   },
   {
     heading: "Sources & references",
@@ -46,6 +46,10 @@ const SECTIONS = [
         url: "https://dcenr.maps.arcgis.com/apps/webappviewer",
       },
     ],
+  },
+  {
+    heading: "Metadata",
+    body: `Time invested: 1 day aggregated\n\nLast modified: 2026-03-13\n\nStatus: v1 complete\n\nKeywords: Ireland, history, LiDAR, GIS, WebGL, React, Three.js, React Three Fiber, React Three Drei`,
   },
 ];
 
