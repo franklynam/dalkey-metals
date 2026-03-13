@@ -3,6 +3,7 @@
 import { useState, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import Scene from './Scene';
+import InfoPanel from './InfoPanel';
 
 const btnStyle = {
   padding: '8px 16px',
@@ -27,6 +28,7 @@ export default function App() {
   const initialTarget = isMobile ? MOBILE_TARGET : DESKTOP_TARGET;
 
   const [showHistoricMap, setShowHistoricMap] = useState(false);
+  const [selectedPOI, setSelectedPOI] = useState(null);
 
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
@@ -42,9 +44,16 @@ export default function App() {
         style={{ width: '100%', height: '100%' }}
       >
         <Suspense fallback={null}>
-          <Scene showHistoricMap={showHistoricMap} initialTarget={initialTarget} />
+          <Scene
+            showHistoricMap={showHistoricMap}
+            initialTarget={initialTarget}
+            selectedPOI={selectedPOI}
+            onSelectPOI={setSelectedPOI}
+          />
         </Suspense>
       </Canvas>
+
+      {selectedPOI && <InfoPanel poi={selectedPOI} onClose={() => setSelectedPOI(null)} />}
 
       <div style={{ position: 'absolute', bottom: 24, right: 24, display: 'flex', gap: 8 }}>
         <button

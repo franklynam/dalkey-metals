@@ -8,11 +8,12 @@ import Island from "./Island";
 import Sea from "./Sea";
 import MetalsPath from "./MetalsPath";
 import HistoricMap from "./HistoricMap";
+import POIMarkers from "./POIMarkers";
 
 // Late-afternoon sun, roughly WSW — casts long shadows across the quarry face
 const SUN_POSITION = [80, 60, -60];
 
-export default function Scene({ showHistoricMap = false, initialTarget }) {
+export default function Scene({ showHistoricMap = false, initialTarget, selectedPOI, onSelectPOI }) {
   return (
     <>
       <Sky
@@ -81,6 +82,7 @@ export default function Scene({ showHistoricMap = false, initialTarget }) {
 
       <Sea />
       <MetalsPath />
+      <POIMarkers selectedId={selectedPOI?.id} onSelect={onSelectPOI} />
     </>
   );
 }
