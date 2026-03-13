@@ -1,37 +1,49 @@
-'use client';
+"use client";
 
 const SECTIONS = [
   {
-    heading: 'About this project',
-    body: `This interactive visualisation places you inside a high-resolution LiDAR terrain model of the coastline between Dalkey Quarry and Dún Laoghaire Harbour — the route once followed by The Metals, one of Ireland's earliest railways. The project overlays georeferenced historical mapping, a reconstructed route path, and contextual points of interest to tell the story of how granite shaped this landscape.`,
+    heading: "About this project",
+    body: `This interactive visualisation places you inside a high-resolution LiDAR terrain model of the coastline between Dalkey Quarry and Dun Laoghaire Harbour — the route followed by The Metals, one of Ireland's earliest railways. The project overlays georeferenced historical mapping, a reconstructed route path, and contextual points of interest to tell the story of how excavated granite was shipped from the quarry down to the port at Dun Laoghaire.`,
   },
   {
-    heading: 'A short history of The Metals',
-    body: `Construction of Dún Laoghaire (then Kingstown) Harbour began in 1817, requiring enormous quantities of granite. To transport stone from Dalkey Quarry to the harbour — a descent of roughly 90 metres over 2.5 kilometres — a purpose-built wagonway was laid. Known locally as The Metals, it used three gravity-powered inclines separated by level horse-drawn sections.\n\nBlocks of granite were loaded onto cars at the quarry face and drawn by horse to the head of Incline No. 1. There the cars were attached to an endless chain and descended under gravity, their weight hauling empty cars back up on the other track. The same process was repeated at Inclines No. 2 and No. 3. At the foot of the third incline, horses took over again, drawing the loaded cars along a level section to the harbour.\n\nThe line operated from around 1817 until quarrying ceased in the 1850s. After closure it gradually passed into public use as a footpath and cycleway, and today forms part of a well-walked amenity route between Dalkey and Dún Laoghaire.`,
+    heading: "A short history of The Metals",
+    body: `Construction of Dun Laoghaire (then Kingstown) Harbour began in 1817, requiring enormous quantities of granite. To transport stone from Dalkey Quarry to the harbour — a descent of roughly 90 metres over 2.5 kilometres — a purpose-built wagonway was laid. Known locally as The Metals, it used three gravity-powered inclines separated by level horse-drawn sections.\n\nBlocks of granite were loaded onto cars at the quarry face and drawn by horse to the head of a first incline stage. There the cars were attached to an endless chain and descended under gravity, their weight hauling empty cars back up on the other track. The same process was repeated at inclines 2 and 3. At the foot of the third incline, horses took over again, drawing the loaded cars along a relatively level section down to the harbour.\n\nThe line operated from around 1817 until quarrying ceased in the 1850s. After closure it gradually passed into public use as a footpath and cycleway, and today forms part of a well-walked amenity route between Dalkey and Dun Laoghaire.`,
   },
   {
-    heading: 'Technology & approach',
-    body: `The terrain model is built from LiDAR (Light Detection and Ranging) data captured by aerial survey. The raw elevation data was processed into a 16-bit grayscale heightmap and rendered in the browser using a WebGL displacement mesh — a technique that produces smooth, GPU-accelerated terrain without transferring any 3D geometry from the server.\n\nThe route path was digitised from historical sources and georeferenced against Irish Transverse Mercator (ITM / EPSG:2157) coordinates. The 1837 Ordnance Survey of Ireland map layer was georectified to the same coordinate system and drapes precisely over the terrain surface.\n\nThe stack: Next.js 15 · React 19 · Three.js · React Three Fiber · React Three Drei.`,
+    heading: "How was this made?",
+    body: `The terrain model is built using LiDAR (Light Detection and Ranging) data captured by aerial survey. The raw elevation data was processed into a 16-bit grayscale heightmap and rendered in the browser using a WebGL displacement mesh — a technique that produces smooth, GPU-accelerated terrain without transferring any 3D geometry from the server.\n\nThe route path was digitised from historical sources and georeferenced against Irish Transverse Mercator (ITM / EPSG:2157) coordinates. The 1837 Ordnance Survey of Ireland map layer was georectified to the same coordinate system and drapes over the terrain surface.\n\nThe stack: Next.js 15 · React 19 · Three.js · React Three Fiber · React Three Drei.`,
   },
   {
-    heading: 'Sources & references',
+    heading: "Sources & references",
     body: null,
     references: [
       {
-        label: 'Rob Goodbody',
-        detail: 'The Metals: from Dalkey to Dún Laoghaire. Dún Laoghaire Rathdown County Council, 2010.',
+        label: "Rob Goodbody",
+        detail:
+          "The Metals: from Dalkey to Dún Laoghaire. Dún Laoghaire Rathdown County Council, 2010.",
       },
       {
-        label: 'Ordnance Survey Ireland',
-        detail: '1837 six-inch map series. Georeferenced overlay reproduced for non-commercial educational purposes.',
+        label: "Joseph Brennan",
+        detail:
+          "The Atmospheric Road: Explorations in England, Ireland, and France. 2020.",
+        url: "https://www.columbia.edu/~brennan/atmo/03_METALS.html",
       },
       {
-        label: 'Google Satellite imagery',
-        detail: 'Colour texture derived from Google Maps satellite layer.',
+        label: "National Library of Scotland",
+        detail:
+          "1837 six-inch map series. Georeferenced overlay reproduced with the permission of the National Library of Scotland.",
+        url: "https://maps.nls.uk/view/246835538",
       },
       {
-        label: 'Geological Survey Ireland / Tailte Éireann',
-        detail: 'Airborne LiDAR terrain data, Irish Transverse Mercator projection (EPSG:2157).',
+        label: "Google Satellite imagery",
+        detail:
+          "Imagery ©2026 Airbus, Landsat / Copernicus, Maxar Technologies, Map data ©2026 Google.",
+      },
+      {
+        label: "Geological Survey Ireland",
+        detail:
+          "Airborne LiDAR terrain data, Irish Transverse Mercator projection (EPSG:2157).",
+        url: "https://dcenr.maps.arcgis.com/apps/webappviewer",
       },
     ],
   },
@@ -41,7 +53,9 @@ export default function InfoModal({ onClose }) {
   return (
     <div
       className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-start justify-center overflow-y-auto py-6 px-4"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
       <div className="w-full max-w-[640px] bg-[rgba(12,12,12,0.96)] border border-white/15 rounded-xl px-7 pt-7 pb-8 text-white relative">
         {/* Close button */}
@@ -64,17 +78,36 @@ export default function InfoModal({ onClose }) {
               {section.heading}
             </h2>
 
-            {section.body && section.body.split('\n\n').map((para, i) => (
-              <p key={i} className="m-0 mb-2.5 text-sm leading-[1.7] text-white/85">
-                {para}
-              </p>
-            ))}
+            {section.body &&
+              section.body.split("\n\n").map((para, i) => (
+                <p
+                  key={i}
+                  className="m-0 mb-2.5 text-sm leading-[1.7] text-white/85"
+                >
+                  {para}
+                </p>
+              ))}
 
             {section.references && (
               <ul className="m-0 p-0 list-none flex flex-col gap-2.5">
                 {section.references.map((ref) => (
-                  <li key={ref.label} className="text-sm leading-relaxed text-white/85">
-                    <span className="font-semibold">{ref.label}. </span>
+                  <li
+                    key={ref.label}
+                    className="text-sm leading-relaxed text-white/85"
+                  >
+                    {ref.url ? (
+                      <a
+                        href={ref.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-gold hover:underline"
+                      >
+                        {ref.label}
+                      </a>
+                    ) : (
+                      <span className="font-semibold">{ref.label}</span>
+                    )}
+                    {". "}
                     <span className="text-white/60">{ref.detail}</span>
                   </li>
                 ))}
