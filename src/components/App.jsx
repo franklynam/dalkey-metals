@@ -24,7 +24,7 @@ export default function App() {
   const [showInfo, setShowInfo] = useState(false);
 
   return (
-    <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
+    <div className="relative" style={{ width: '100vw', height: '100vh' }}>
       <Canvas
         shadows
         camera={{
@@ -34,7 +34,6 @@ export default function App() {
           far: 2000,
         }}
         gl={{ antialias: true }}
-        style={{ width: '100%', height: '100%' }}
       >
         <Suspense fallback={null}>
           <Scene

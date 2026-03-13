@@ -1,13 +1,13 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@import "tailwindcss";
+
+@theme {
+  --color-gold: #e8c84a;
+  --color-poi-red: #c0392b;
 }
 
+/* Resets not covered by Tailwind preflight */
 html,
 body {
-  margin: 0;
-  padding: 0;
   height: 100%;
   overflow: hidden;
   background: #000;
