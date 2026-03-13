@@ -50,7 +50,7 @@ export default function App() {
 
       {selectedPOI && <InfoPanel poi={selectedPOI} onClose={() => setSelectedPOI(null)} />}
 
-      <div style={{ position: 'absolute', bottom: 24, right: 24 }}>
+      <div className="absolute top-20 left-5">
         <LayerPicker activeLayer={activeLayer} onLayerChange={setActiveLayer} />
       </div>
     </div>

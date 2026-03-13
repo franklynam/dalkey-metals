@@ -38,7 +38,7 @@ export default function LayerPicker({ activeLayer, onLayerChange }) {
     <div className="relative select-none">
       {/* Layer cards — shown above the button when open */}
       {open && (
-        <div className="absolute bottom-[calc(100%+8px)] right-0 flex gap-2 bg-black/88 backdrop-blur border border-white/15 rounded-[10px] p-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.5)]">
+        <div className="absolute top-[calc(100%+8px)] left-0 flex gap-2 bg-black/88 backdrop-blur border border-white/15 rounded-[10px] p-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.5)]">
           {LAYERS.map((layer) => {
             const active = layer.id === activeLayer;
             return (
