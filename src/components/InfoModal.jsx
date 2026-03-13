@@ -49,7 +49,7 @@ const SECTIONS = [
   },
   {
     heading: "Metadata",
-    body: `Time invested: 1 day aggregated\n\nLast modified: 2026-03-13\n\nStatus: v1 complete\n\nKeywords: Ireland, history, LiDAR, GIS, WebGL, React, Three.js, React Three Fiber, React Three Drei`,
+    body: `Time invested: 1 day in total\n\nLast modified: __LAST_MODIFIED__\n\nStatus: v1 complete\n\nKeywords: Ireland, history, LiDAR, GIS, WebGL, React, Three.js, React Three Fiber, React Three Drei`,
   },
 ];
 
@@ -83,7 +83,15 @@ export default function InfoModal({ onClose }) {
             </h2>
 
             {section.body &&
-              section.body.split("\n\n").map((para, i) => (
+              (section.heading === "Metadata"
+                ? section.body.replace(
+                    "__LAST_MODIFIED__",
+                    process.env.NEXT_PUBLIC_LAST_MODIFIED ?? "—"
+                  )
+                : section.body
+              )
+                .split("\n\n")
+                .map((para, i) => (
                 <p
                   key={i}
                   className="m-0 mb-2.5 text-sm leading-[1.7] text-white/85"
