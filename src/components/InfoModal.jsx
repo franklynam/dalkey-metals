@@ -6,6 +6,10 @@ const SECTIONS = [
     body: `This interactive visualisation places you inside a high-resolution LiDAR terrain model of the coastline between Dalkey Quarry and Dun Laoghaire Harbour — the route followed by The Metals, one of Ireland's earliest railways. The project overlays georeferenced historical mapping, a reconstructed route path, and contextual points of interest to tell the story of how excavated granite was shipped from the quarry down to the port at Dun Laoghaire.`,
   },
   {
+    heading: "How to use this visualisation",
+    body: `On desktop: drag to orbit the terrain, scroll to move forward and back, right-click drag to pan.\n\nOn mobile: drag to orbit, pinch to zoom, two-finger drag to pan, double-tap to reset the view.\n\nClick the red pins to read about points of interest along the route. Use the layers button to switch between satellite imagery and the 1837 Ordnance Survey map.`,
+  },
+  {
     heading: "A short history of The Metals",
     body: `Construction of Dun Laoghaire (then Kingstown) Harbour began in 1817, requiring enormous quantities of granite. To transport stone from Dalkey Quarry to the harbour — a descent of roughly 90 metres over 2.5 kilometres — a purpose-built wagonway was laid. Known locally as The Metals, it used three gravity-powered inclines separated by level horse-drawn sections.\n\nBlocks of granite were loaded onto cars at the quarry face and drawn by horse to the head of a first incline stage. There the cars were attached to an endless chain and descended under gravity, their weight hauling empty cars back up on the other track. The same process was repeated at inclines 2 and 3. At the foot of the third incline, horses took over again, drawing the loaded cars along a relatively level section down to the harbour.\n\nThe line operated from around 1817 until quarrying ceased in the 1850s. After closure it gradually passed into public use as a footpath and cycleway, and today forms part of a well-walked amenity route between Dalkey and Dun Laoghaire.`,
   },
@@ -86,19 +90,19 @@ export default function InfoModal({ onClose }) {
               (section.heading === "Metadata"
                 ? section.body.replace(
                     "__LAST_MODIFIED__",
-                    process.env.NEXT_PUBLIC_LAST_MODIFIED ?? "—"
+                    process.env.NEXT_PUBLIC_LAST_MODIFIED ?? "—",
                   )
                 : section.body
               )
                 .split("\n\n")
                 .map((para, i) => (
-                <p
-                  key={i}
-                  className="m-0 mb-2.5 text-sm leading-[1.7] text-white/85"
-                >
-                  {para}
-                </p>
-              ))}
+                  <p
+                    key={i}
+                    className="m-0 mb-2.5 text-sm leading-[1.7] text-white/85"
+                  >
+                    {para}
+                  </p>
+                ))}
 
             {section.references && (
               <ul className="m-0 p-0 list-none flex flex-col gap-2.5">
