@@ -5,6 +5,8 @@ import { Canvas } from '@react-three/fiber';
 import Scene from './Scene';
 import InfoPanel from './InfoPanel';
 import LayerPicker from './LayerPicker';
+import TitleCard from './TitleCard';
+import InfoModal from './InfoModal';
 
 const DESKTOP_CAMERA = { position: [85.74,  82.25,  -67.78] };
 const DESKTOP_TARGET = [-24.09, -16.12,  15.46];
@@ -19,6 +21,7 @@ export default function App() {
 
   const [activeLayer, setActiveLayer] = useState('satellite');
   const [selectedPOI, setSelectedPOI] = useState(null);
+  const [showInfo, setShowInfo] = useState(false);
 
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
@@ -42,6 +45,9 @@ export default function App() {
           />
         </Suspense>
       </Canvas>
+
+      <TitleCard onInfo={() => setShowInfo(true)} />
+      {showInfo && <InfoModal onClose={() => setShowInfo(false)} />}
 
       {selectedPOI && <InfoPanel poi={selectedPOI} onClose={() => setSelectedPOI(null)} />}
 
