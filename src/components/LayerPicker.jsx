@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import clsx from 'clsx';
 
 export const LAYERS = [
   {
     id: 'satellite',
     label: 'Satellite',
-    // CSS gradient standing in for a satellite preview swatch
     preview: 'linear-gradient(135deg, #3d5a3e 0%, #6b8c5a 40%, #4a7a6b 70%, #2d4a5e 100%)',
   },
   {
@@ -35,60 +35,26 @@ export default function LayerPicker({ activeLayer, onLayerChange }) {
   };
 
   return (
-    <div style={{ position: 'relative', userSelect: 'none' }}>
+    <div className="relative select-none">
       {/* Layer cards — shown above the button when open */}
       {open && (
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 'calc(100% + 8px)',
-            right: 0,
-            display: 'flex',
-            gap: 8,
-            background: 'rgba(10,10,10,0.88)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(255,255,255,0.15)',
-            borderRadius: 10,
-            padding: 10,
-            boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-          }}
-        >
+        <div className="absolute bottom-[calc(100%+8px)] right-0 flex gap-2 bg-black/88 backdrop-blur border border-white/15 rounded-[10px] p-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.5)]">
           {LAYERS.map((layer) => {
             const active = layer.id === activeLayer;
             return (
               <button
                 key={layer.id}
                 onClick={() => handleSelect(layer.id)}
-                style={{
-                  background: 'none',
-                  border: `2px solid ${active ? '#e8c84a' : 'rgba(255,255,255,0.2)'}`,
-                  borderRadius: 8,
-                  padding: 0,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 6,
-                  overflow: 'hidden',
-                  width: 72,
-                }}
+                className={clsx(
+                  'bg-transparent p-0 cursor-pointer flex flex-col items-center gap-1.5 overflow-hidden w-[72px] rounded-lg border-2',
+                  active ? 'border-gold' : 'border-white/20'
+                )}
               >
-                <div
-                  style={{
-                    width: '100%',
-                    height: 52,
-                    background: layer.preview,
-                  }}
-                />
-                <span
-                  style={{
-                    fontSize: 11,
-                    color: active ? '#e8c84a' : 'rgba(255,255,255,0.8)',
-                    fontFamily: 'system-ui, sans-serif',
-                    paddingBottom: 6,
-                    fontWeight: active ? 600 : 400,
-                  }}
-                >
+                <div className="w-full h-[52px]" style={{ background: layer.preview }} />
+                <span className={clsx(
+                  'text-[11px] pb-1.5',
+                  active ? 'text-gold font-semibold' : 'text-white/80 font-normal'
+                )}>
                   {layer.label}
                 </span>
               </button>
@@ -100,30 +66,15 @@ export default function LayerPicker({ activeLayer, onLayerChange }) {
       {/* Layers button */}
       <button
         onClick={() => setOpen((v) => !v)}
-        style={{
-          width: 40,
-          height: 40,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 2,
-          background: open ? 'rgba(232,200,74,0.9)' : 'rgba(0,0,0,0.55)',
-          color: open ? '#1a1a1a' : '#fff',
-          border: '1px solid rgba(255,255,255,0.25)',
-          borderRadius: 8,
-          cursor: 'pointer',
-          backdropFilter: 'blur(4px)',
-        }}
+        className={clsx(
+          'w-10 h-10 flex flex-col items-center justify-center gap-0.5 border border-white/25 rounded-lg cursor-pointer backdrop-blur-sm',
+          open ? 'bg-gold/90 text-[#1a1a1a]' : 'bg-black/55 text-white'
+        )}
         aria-label="Layers"
         title="Layers"
       >
         <LayersIcon />
-        {window.innerWidth >= 768 && (
-          <span style={{ fontSize: 9, fontFamily: 'system-ui, sans-serif', letterSpacing: '0.02em' }}>
-            Layers
-          </span>
-        )}
+        <span className="hidden md:inline text-[9px] tracking-[0.02em]">Layers</span>
       </button>
     </div>
   );

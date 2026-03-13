@@ -41,16 +41,7 @@ export default function POIMarkers({ selectedId, onSelect }) {
       >
         <button
           onClick={() => onSelect(poi.id === selectedId ? null : poi)}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 0,
-            pointerEvents: 'auto',
-            // Drop shadow so pin reads against any terrain colour
-            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))',
-            transform: 'translateY(-50%)',
-          }}
+          className="bg-transparent border-0 cursor-pointer p-0 pointer-events-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] -translate-y-1/2"
           aria-label={poi.title}
         >
           <PinIcon selected={poi.id === selectedId} />

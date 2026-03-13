@@ -23,59 +23,20 @@ function InfoIcon() {
 
 export default function TitleCard({ onInfo }) {
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: 20,
-        left: 20,
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        background: "rgba(10,10,10,0.4)",
-        backdropFilter: "blur(8px)",
-        border: "1px solid rgba(255,255,255,0.15)",
-        borderRadius: 10,
-        padding: "10px 14px",
-        userSelect: "none",
-      }}
-    >
+    <div className="absolute top-5 left-5 flex items-center gap-2.5 bg-black/40 backdrop-blur border border-white/15 rounded-[10px] py-2.5 px-3.5 select-none">
       <img
         src="/metals-logo.png"
         alt="The Metals sign"
-        style={{
-          height: 32,
-          width: "auto",
-          borderRadius: 4,
-          display: "block",
-          border: "1px solid rgba(255,255,255,1)",
-        }}
+        className="h-8 w-auto rounded block border border-white"
       />
 
-      <span
-        style={{
-          color: "#fff",
-          fontFamily: "system-ui, sans-serif",
-          fontSize: 15,
-          fontWeight: 600,
-          letterSpacing: "0.01em",
-          whiteSpace: "nowrap",
-        }}
-      >
+      <span className="text-white text-[15px] font-semibold tracking-[0.01em] whitespace-nowrap">
         Visualising the Metals
       </span>
 
       <button
         onClick={onInfo}
-        style={{
-          background: "none",
-          border: "none",
-          color: "rgba(255,255,255,0.6)",
-          cursor: "pointer",
-          padding: 0,
-          display: "flex",
-          alignItems: "center",
-          flexShrink: 0,
-        }}
+        className="bg-transparent border-0 text-white/60 cursor-pointer p-0 flex items-center shrink-0"
         aria-label="About"
       >
         <InfoIcon />

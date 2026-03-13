@@ -15,7 +15,7 @@ const SECTIONS = [
   },
   {
     heading: 'Sources & references',
-    body: null, // rendered separately as a list
+    body: null,
     references: [
       {
         label: 'Rob Goodbody',
@@ -40,96 +40,52 @@ const SECTIONS = [
 export default function InfoModal({ onClose }) {
   return (
     <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 200,
-        background: 'rgba(0,0,0,0.7)',
-        backdropFilter: 'blur(4px)',
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        overflowY: 'auto',
-        padding: '24px 16px',
-      }}
+      className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-start justify-center overflow-y-auto py-6 px-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div
-        style={{
-          width: '100%',
-          maxWidth: 640,
-          background: 'rgba(12,12,12,0.96)',
-          border: '1px solid rgba(255,255,255,0.15)',
-          borderRadius: 12,
-          padding: '28px 28px 32px',
-          color: '#fff',
-          fontFamily: 'system-ui, sans-serif',
-          position: 'relative',
-        }}
-      >
+      <div className="w-full max-w-[640px] bg-[rgba(12,12,12,0.96)] border border-white/15 rounded-xl px-7 pt-7 pb-8 text-white relative">
         {/* Close button */}
         <button
           onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: 16,
-            right: 16,
-            background: 'none',
-            border: 'none',
-            color: 'rgba(255,255,255,0.5)',
-            fontSize: 22,
-            lineHeight: 1,
-            cursor: 'pointer',
-            padding: 4,
-          }}
+          className="absolute top-4 right-4 bg-transparent border-0 text-white/50 text-[22px] leading-none cursor-pointer p-1"
           aria-label="Close"
         >
           ×
         </button>
 
         {/* Title */}
-        <h1 style={{ margin: '0 0 24px', fontSize: 20, fontWeight: 700, color: '#e8c84a', paddingRight: 32 }}>
+        <h1 className="m-0 mb-6 text-xl font-bold text-gold pr-8">
           Visualising the Metals
         </h1>
 
         {SECTIONS.map((section) => (
-          <section key={section.heading} style={{ marginBottom: 24 }}>
-            <h2 style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.45)' }}>
+          <section key={section.heading} className="mb-6">
+            <h2 className="m-0 mb-2 text-[13px] font-bold uppercase tracking-[0.08em] text-white/45">
               {section.heading}
             </h2>
 
             {section.body && section.body.split('\n\n').map((para, i) => (
-              <p key={i} style={{ margin: '0 0 10px', fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)' }}>
+              <p key={i} className="m-0 mb-2.5 text-sm leading-[1.7] text-white/85">
                 {para}
               </p>
             ))}
 
             {section.references && (
-              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <ul className="m-0 p-0 list-none flex flex-col gap-2.5">
                 {section.references.map((ref) => (
-                  <li key={ref.label} style={{ fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.85)' }}>
-                    <span style={{ fontWeight: 600 }}>{ref.label}. </span>
-                    <span style={{ color: 'rgba(255,255,255,0.6)' }}>{ref.detail}</span>
+                  <li key={ref.label} className="text-sm leading-relaxed text-white/85">
+                    <span className="font-semibold">{ref.label}. </span>
+                    <span className="text-white/60">{ref.detail}</span>
                   </li>
                 ))}
               </ul>
             )}
           </section>
         ))}
+
         <button
           onClick={onClose}
-          style={{
-            marginTop: 8,
-            width: '100%',
-            padding: '10px 0',
-            background: 'rgba(255,255,255,0.08)',
-            border: '1px solid rgba(255,255,255,0.2)',
-            borderRadius: 8,
-            color: '#fff',
-            fontFamily: 'system-ui, sans-serif',
-            fontSize: 14,
-            cursor: 'pointer',
-          }}
+          className="mt-2 w-full py-2.5 bg-white/8 border border-white/20 rounded-lg text-white text-sm cursor-pointer"
         >
           Close
         </button>
