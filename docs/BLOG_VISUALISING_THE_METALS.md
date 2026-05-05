@@ -1,8 +1,10 @@
 # Visualising The Metals: Presenting a Historical Narrative using a Web-based LiDAR Terrain Explorer
 
-I've lived in the outskirts of Dún Laoghaire since 2015 and in that time I've walked some part of a local path known as the Metals almost daily. The Metals is the nickname given to the route of an old horse-powered railway that ran from Dalkey Quarry down through Glasthule to Dún Laoghaire Harbour, which in the 19th century was known as Kingstown. Granite blocks quarried on the hill were loaded onto carts and sent down a series of gravity-powered inclines, through three separate chain-driven drops, eventually to be deposited onto ships or used in the construction of the great east and west piers of the port. It's a fascinating piece of industrial history hidden in plain sight that takes in breathtaking views across Dublin Bay, looking north towards Howth.
+There is a path on the outskirts of Dún Laoghaire that I have walked almost every day for the past ten years. Locals call it the Metals. The Metals is the nickname given to the route of an old horse-powered railway that ran from Dalkey Quarry down through Glasthule to Dún Laoghaire Harbour, which in the 19th century was known as Kingstown. Granite blocks quarried on the hill were loaded onto carts and sent down a series of gravity-powered inclines, through three separate chain-driven drops, eventually to be deposited onto ships or used in the construction of the great east and west piers of the port. It's a fascinating piece of industrial history hidden in plain sight that takes in breathtaking views across Dublin Bay, looking north towards Howth.
 
 I had always thought that the railway would make a great subject for a digital story and recently I spent a pleasant day putting together a small web app with the Metals as its subject. The idea was to present the railway route within a 3D terrain model that gave the user some impression of the route’s topographic context, the elevation change from its starting point at the Dalkey Quarry to its finish at Dún Laoghaire port. My objective was for the terrain model to be rendered as it is today using satellite imagery and as it was in the past using a 19th century Ordnance Survey map. I'll get into the technical approaches employed below but the key enabler of the project was ready availability of LiDAR data, which is made freely available by the Department of Climate, Energy and the Environment [ArcGIS web viewer](https://dcenr.maps.arcgis.com/apps/webappviewer), satellite imagery from Google Maps and an 1837 Ordnance Survey map of the Dublin area sourced from the [National Library of Scotland's Digital Archive](https://maps.nls.uk/os/6inch-ireland/dublin.html).
+
+[Screenshot: the finished terrain explorer in satellite mode, viewed from a high angle looking down the route from Dalkey Quarry toward Dún Laoghaire Harbour. The route line should be visible. This is the hero image — pick the most dramatic angle available.]
 
 LiDAR, which is short for Light Detection and Ranging, is a surveying technique used to capture topographic elevation data. A laser scanner is mounted onto the base of an aircraft, which flies over the target area. The scanner fires millions of pulses at the ground and records the precise elevation of each return and the output of this is a Digital Terrain Model or DTM that captures the shape of the landscape with centimetre-level precision.
 
@@ -10,11 +12,13 @@ LiDAR, which is short for Light Detection and Ranging, is a surveying technique 
 
 The base framework used is Next.js 15 with the App Router. There’s nothing too interesting to say about this except to say it's a great stack that produces very dependable repeatable results. For the 3D rendering, I used [Three.js](https://threejs.org/), which was abstracted using the [@react-three/fiber](https://r3f.docs.pmnd.rs/) and [@react-three/drei](https://drei.docs.pmnd.rs/) libraries. If you haven't come across these before, R3F is a React renderer for Three.js that lets you describe your 3D scene using JSX components rather than imperative WebGL calls. As a first time user of the library, it turned out to be a genuinely nice way to work. `drei` is a companion library of pre-built helpers, things like `<OrbitControls>`, `<Line>`, and `<Html>` — that save you a lot of time building out functionality that has been coded many times before.
 
-## Processing the topographic data
+## From LiDAR to the Browser
 
 The first challenge was to convert the Digital Terrain Model into a format that could be ingested into Three.js. The LiDAR data is sourced as a GeoTIFF, a raster image format that embeds geographic coordinate metadata alongside the pixel data. Each pixel in the file represents a 1-metre ground cell, with its value encoding the elevation in metres. I sourced this data from the Department of Climate, Energy and the Environment [ArcGIS web viewer](https://dcenr.maps.arcgis.com/apps/webappviewer).
 
 Before it can be used with Three.js, you need to do a couple of things. The first is converting the GeoTIFF to a 16-bit grayscale heightmap GTiff. I used the free app [QGIS](https://qgis.org/) to do this conversion. I also used QGIS to stitch together a number of different tiles downloaded from the ArcGIS web viewer and then to crop the target area needed for the project. For my area of interest, covering roughly 4 km² around Dalkey and Dún Laoghaire, this produced a 2048×2048 raster image with values ranging from sea level up to about 130 metres at the top of the quarry.
+
+[Screenshot: the 16-bit greyscale heightmap PNG — the 2048×2048 image showing the terrain elevation as light and dark tones, with the quarry at the top appearing brightest and the coastline and sea at the bottom appearing darkest.]
 
 Three.js renders terrain using a technique called displacement mapping. You take a flat plane geometry, subdivide it into a fine grid of vertices, and then use a greyscale texture — the heightmap — to push each vertex up or down according to its corresponding pixel value. White means high, black means low. It is an elegant approach and it runs very well on the GPU.
 
@@ -32,11 +36,15 @@ Once a point is in ITM, converting it to a pixel offset is straightforward. The 
 
 The scene X and Z coordinates then follow from the pixel position. The Three.js plane is centred at the scene origin, so a pixel at the tile centre maps to coordinate zero, and points toward the edges map proportionally outward. The Y coordinate, representing height, uses the Z values that QGIS baked into the GeoJSON during the draping step, divided by the metres-per-scene-unit scale, plus a small upward offset to lift the path line clear of the terrain surface and avoid z-fighting.
 
-## Two Maps, One Terrain
+## Two Eras, One Landscape
 
 The satellite imagery layer was relatively straightforward once the coordinates were sorted. I took a Google Satellite tile covering the area, sized it to match the DTM bounds, and used it as the colour map on the terrain mesh while the heightmap handled the displacement. Three.js's `meshStandardMaterial` supports this combination directly — `displacementMap` for the shape, `map` for the colour.
 
+[Screenshot: the terrain in satellite mode — a clear view of the modern landscape with the route line visible, showing Dalkey, Glasthule, and the harbour.]
+
 The more interesting texture layer challenge was adding the 1837 Ordnance Survey map. This is a gorgeous historical document showing the landscape around Dalkey and Kingstown just a few years after The Metals began operation. The piers, the inclines and the quarry are all annotated in beautiful 19th-century cartographic style. I converted it from a TIFF to a JPEG, matched its geographic bounds to the same ITM tile extents and draped it over the same displaced mesh using the same displacement parameters. Swapping in the app between the modern satellite view and the 1837 map is pretty interesting as you can see exactly how much the coastline has changed.
+
+[Screenshot: the same view with the 1837 Ordnance Survey map layer active — ideally a matching angle to the satellite screenshot above so the reader can directly compare the two. The historical cartographic style and the changed coastline should be clearly visible.]
 
 Note that I handled the area around Dalkey Island separately as it fell within a different DTM tile. This was a bit of extra work but worth it overall as it is a recognisable landmark of the area.
 
@@ -48,14 +56,14 @@ I replaced the default scroll behaviour with a dolly-along-view approach. On eac
 
 I also added a pivot snapping behaviour on left-click. When you start a drag, the orbit pivot moves to a point directly in front of the camera at the current viewing distance. This means you always orbit around whatever is at the centre of your screen, rather than some arbitrary point you may have stopped orbiting around two interactions ago. On mobile, a double-tap resets the camera to its initial position, which serves as a failsafe against the user getting lost in the terrain.
 
-## Points of Interest and the Layer Picker
+## Adding the Story
 
 Once the terrain and navigation were working I added points of interest along the route — the quarry, each of the three inclines, and the harbour at Kingstown. These use Drei's `<Html>` component, which lets you render ordinary HTML elements anchored to a position in 3D space. When you click a marker, a panel appears with a description of the selected marker. This helps build the narrative element of the experience.
 
+[Screenshot: a point of interest marker selected and its info panel open — ideally one of the inclines or the quarry, with the terrain and route visible in the background.]
+
 I also added a layer picker following the Google Maps style, which allows switching between the satellite and 1837 OS map layers.
 
-## The Final Effect
+## What the Project Became
 
-The result is a working 3D terrain explorer that lets you fly over The Metals environment, switching between modern and historical map views, and clicking on markers along the route to discover more about what their significance is to the story. For hosting, I chose to use AWS Amplify as the app runs entirely in the browser with no backend beyond static file serving. Amplify is perfect for this type of application.
-
-There is plenty more that could be added on to the feature set. The 16-bit precision issue would be nice to fix properly. Adding more detail to the points of interest and perhaps some archival imagery, would make for a richer user experience. But as a first release, it does what I set out to do: it puts you in the landscape of The Metals and lets you better imagine the journey of those granite-laden carts as they descended from the walls of the quarry down to the coast.
+The Metals project is a work in progress and there are plenty of features that I would like to add in the future. The 16-bit precision issue would be great to fix properly and adding more detail to the points of interest in the form of archive and modern photography would make for a richer user experience. But it does what I set out to do: it puts you in the landscape, lets you feel the elevation drop from the quarry down to the coast, and makes it easier to imagine those granite-laden carts moving through a neighbourhood I walk through every day. And most importantly for me, the project allowed me to get back up to speed on a number of techniques that I was once pretty good at but haven't used regularly in a number of years. And it was a lot of fun.
