@@ -17,6 +17,51 @@ Open [http://localhost:3000](http://localhost:3000). Orbit with left-click drag,
 
 ---
 
+## Satellite texture
+
+The modern satellite colour map (`public/textures/dl-area-plus-piers-texture.jpg`) is not included in this repository for licensing reasons. It is stored in a private S3 bucket and pulled into the build automatically when deploying to AWS Amplify.
+
+### Running locally
+
+You need the texture file present before `npm run dev`. If you have AWS credentials with access to the bucket:
+
+```bash
+aws s3 cp s3://YOUR_BUCKET_NAME/dl-area-plus-piers-texture.jpg public/textures/dl-area-plus-piers-texture.jpg
+```
+
+Alternatively, substitute your own satellite or aerial imagery for the same area. It should cover the ITM bounds E 724000–726000, N 726000–728000 and be saved as a JPEG at that path. The app will load but the satellite layer will be blank if the file is missing.
+
+### Deploying to Amplify
+
+The `amplify.yml` at the project root handles the download automatically at build time. You need to complete three steps in AWS first:
+
+1. **S3 bucket** — create a private bucket and upload `dl-area-plus-piers-texture.jpg` to its root.
+
+2. **IAM policy** — attach an inline policy to your Amplify service role (find it under App settings → IAM roles in the Amplify console):
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::YOUR_BUCKET_NAME/*"
+    }
+  ]
+}
+```
+
+3. **Environment variable** — in the Amplify console under Environment variables, add:
+
+```
+S3_BUCKET = YOUR_BUCKET_NAME
+```
+
+Once those are in place, every Amplify build will pull the texture before running `npm run build`.
+
+---
+
 ## File structure
 
 ```
