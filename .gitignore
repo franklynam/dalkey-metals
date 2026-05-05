@@ -25,6 +25,9 @@ npm-debug.log*
 *.tif
 *.tiff
 
+# Google satellite imagery — stored in private S3 bucket, pulled at build time
+public/textures/dl-area-plus-piers-texture.jpg
+
 # Intermediate / generated assets (regenerate with scripts/)
 metals_dtm_16bit.png
 public/textures/dalkey-area.txt
