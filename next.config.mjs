@@ -1,4 +1,8 @@
 import { execSync } from 'node:child_process';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const { version } = require('./package.json');
 
 function getGitHeadDate() {
   try {
@@ -16,6 +20,7 @@ const nextConfig = {
   transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
   env: {
     NEXT_PUBLIC_LAST_MODIFIED: getGitHeadDate(),
+    NEXT_PUBLIC_VERSION: version,
   },
 };
 

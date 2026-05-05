@@ -53,7 +53,7 @@ const SECTIONS = [
   },
   {
     heading: "Metadata",
-    body: `Time invested: 1 day in total\n\nLast modified: __LAST_MODIFIED__\n\nStatus: v1 complete\n\nKeywords: Ireland, history, LiDAR, GIS, WebGL, React, Three.js, React Three Fiber, React Three Drei`,
+    body: `Time invested: 1 day in total\n\nLast modified: __LAST_MODIFIED__\n\nStatus: alpha complete\n\nKeywords: Ireland, history, LiDAR, GIS, WebGL, React, Three.js, React Three Fiber, React Three Drei`,
   },
 ];
 
@@ -78,6 +78,9 @@ export default function InfoModal({ onClose }) {
         {/* Title */}
         <h1 className="m-0 mb-6 text-xl font-bold text-gold pr-8">
           Visualising the Metals
+          <span className="ml-2 text-sm font-normal text-white/35">
+            v{process.env.NEXT_PUBLIC_VERSION}
+          </span>
         </h1>
 
         {SECTIONS.map((section) => (
