@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function InfoPanel({ poi, onClose }) {
   const [activeImage, setActiveImage] = useState(null);
@@ -32,12 +33,14 @@ export default function InfoPanel({ poi, onClose }) {
             >
               ← Back
             </button>
-            <img
-              src={poi.images[activeImage].src}
-              alt={poi.images[activeImage].title}
-              className="rounded block object-cover w-full mt-2"
-              style={{ height: 216 }}
-            />
+            <div className="relative rounded overflow-hidden mt-2" style={{ height: 216 }}>
+              <Image
+                src={poi.images[activeImage].src}
+                alt={poi.images[activeImage].title}
+                fill
+                className="object-cover"
+              />
+            </div>
             <p className="mt-1 mb-0 text-[10px] text-white/50 text-center">
               {poi.images[activeImage].title}
             </p>
@@ -53,12 +56,14 @@ export default function InfoPanel({ poi, onClose }) {
                 className="m-0 cursor-pointer"
                 onClick={() => setActiveImage(index)}
               >
-                <img
-                  src={image.src}
-                  alt={image.title}
-                  className="rounded block object-cover w-full hover:opacity-80 transition-opacity"
-                  style={{ height: 72 }}
-                />
+                <div className="relative rounded overflow-hidden hover:opacity-80 transition-opacity" style={{ height: 72 }}>
+                  <Image
+                    src={image.src}
+                    alt={image.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <figcaption className="mt-1 text-[10px] text-white/50 text-center">
                   {image.title}
                 </figcaption>
