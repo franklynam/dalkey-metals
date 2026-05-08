@@ -48,7 +48,12 @@ export default function App() {
       <TitleCard onInfo={() => setShowInfo(true)} />
       {showInfo && <InfoModal onClose={() => setShowInfo(false)} />}
 
-      {selectedPOI && <InfoPanel poi={selectedPOI} onClose={() => setSelectedPOI(null)} />}
+      {selectedPOI && (
+        <>
+          <div className="absolute inset-0 z-[99]" onClick={() => setSelectedPOI(null)} />
+          <InfoPanel poi={selectedPOI} onClose={() => setSelectedPOI(null)} />
+        </>
+      )}
 
       <div className="absolute top-20 left-5">
         <LayerPicker activeLayer={activeLayer} onLayerChange={setActiveLayer} />
