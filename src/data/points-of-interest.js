@@ -12,19 +12,19 @@ export const POINTS_OF_INTEREST = [
     images: [
       {
         src: "/poi/metals-dalkey-quarry-looking-to-port.jpg",
-        title: "Looking towards Dun Laoghaire port",
+        title: "Looking down towards Dun Laoghaire port",
       },
       {
         src: "/poi/metals-dalkey-quarry-track1.jpg",
-        title: "Detail of the quarry track",
+        title: "Detail of the railway track",
       },
       {
         src: "/poi/metals-dalkey-quarry-track2.jpg",
-        title: "Detail of the quarry track",
+        title: "Detail of the railway track",
       },
       {
         src: "/poi/metals-dalkey-quarry-track3.jpg",
-        title: "Detail of the quarry track",
+        title: "Detail of the railway track",
       },
     ],
   },
